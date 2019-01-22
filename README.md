@@ -21,6 +21,8 @@ Nginx is used to route traffic to proper back end server:
 
 ![Alt text](docs/fib-calculator-2.png?raw=true "routing")
 
+TravisCI builds the containers, pushes them to [DockerHub](https://hub.docker.com/u/nfhbar), and tells EBS to update.
+
 ## Local Usage
 In root folder:
 ```

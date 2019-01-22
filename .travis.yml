@@ -1,0 +1,20 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t nfhbar/fib-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run nfhbar/fib-test npm test -- --coverage
+
+after_success:
+  - docker build -t nfhbar/fib-calculator-client ./client
+  - docker build -t nfhbar/fib-calculator-nginx ./nginx
+  - docker build -t nfhbar/fib-calculator-server ./server
+  - docker build -t nfhbar/fib-calculator-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push nfhbar/fib-calculator-client
+  - docker push nfhbar/fib-calculator-nginx
+  - docker push nfhbar/fib-calculator-server
+  - docker push nfhbar/fib-calculator-worker
