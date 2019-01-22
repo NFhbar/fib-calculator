@@ -1,5 +1,7 @@
 # Fibonacci Calculator
 
+[![Build Status](https://travis-ci.org/NFhbar/fib-calculator.svg?branch=master)](https://travis-ci.org/NFhbar/fib-calculator)
+
 Over complicated Fibonacci calculator to illustrate multi-container application.
 
 Stack:
