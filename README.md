@@ -24,7 +24,7 @@ The production environment architecture is hosted in AWS:
 Nginx is used to route traffic to proper back end server:
 ![Alt text](docs/fib-calculator-2.png?raw=true "routing")
 
-AWS resources are managed by [terraform](https://www.terraform.io/). See [terraform folder](/docs/terraform/README.md) for details.
+AWS resources are managed by [terraform](https://www.terraform.io/). See [terraform folder](/terraform/README.md) for details.
 
 TravisCI builds the containers, pushes them to [DockerHub](https://hub.docker.com/u/nfhbar), and tells EBS to update.
 
@@ -70,6 +70,8 @@ Also add a valid AWS `access key` and `access secret` to Travis environment vari
 After making modifications, push your changes to master and Travis will
 build and push.
 
+EBS multi-container settings in [Dockerrun.aws.json](./Dockerrun.aws.json)
+
 ## Local Usage
 In root folder:
 ```
@@ -79,3 +81,8 @@ $ docker-compose up --build
 If first time running fails, might have to start twice.
 
 Then visit `localhost:3050`. Input values and refresh page.
+
+## TODO
+- optimize memory usage per container in [Dockerrun.aws.json](./Dockerrun.aws.json)
+
+- fix terraform failing on initialization due to missing `IAM policy`.
