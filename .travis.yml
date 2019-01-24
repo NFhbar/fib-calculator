@@ -18,3 +18,16 @@ after_success:
   - docker push nfhbar/fib-calculator-nginx
   - docker push nfhbar/fib-calculator-server
   - docker push nfhbar/fib-calculator-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: us-east-2
+  app: nf-prod-fib-calculator-t
+  env: nf-prod-fib-calculator-t
+  bucket_name: elasticbeanstalk-us-east-2-259280065187
+  bucket_path: fib-calculator
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_ACCESS_SECRET

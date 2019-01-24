@@ -12,18 +12,62 @@ Stack:
 - [express](https://expressjs.com/)
 - [postgres](https://www.postgresql.org/)
 - [docker](https://www.docker.com/)
+- [terraform](https://www.terraform.io/)
 - [AWS Elastic beanstalk](https://aws.amazon.com/elasticbeanstalk/)
 
-Each service is `dockerized` with development containers for testing and production
-containers for deployment.
+Each service is `dockerized` with development containers -`Dockerfile.dev`- for testing:
+![Alt text](docs/fib-calculator.png?raw=true "dev_architecture")
 
-![Alt text](docs/fib-calculator.png?raw=true "architecture")
+The production environment architecture is hosted in AWS:
+![Alt text](docs/fib-calculator-3.png?raw=true "prod_architecture")
 
 Nginx is used to route traffic to proper back end server:
-
 ![Alt text](docs/fib-calculator-2.png?raw=true "routing")
 
+AWS resources are managed by [terraform](https://www.terraform.io/). See [terraform folder](docs/terraform/README.md) for details.
+
 TravisCI builds the containers, pushes them to [DockerHub](https://hub.docker.com/u/nfhbar), and tells EBS to update.
+
+## Usage
+### Terraform setup
+The first time you deploy you'll provision a sample `beanstalk` app:
+
+- Create an `S3` bucket and upload the sample app file: [docker-multicontainer-v2.zip](/docs/docker-multicontainer-v2.zip)
+
+- In the `/terraform` folder, create a `terraform.tfvars` file and fill your values - refer to [terraform.sample.tfvars](/terraform/terraform.sample.tfvars)
+
+- Still in `/terraform`:
+```
+$ terraform init
+$ terraform plan
+$ terraform apply
+```
+
+If deploy fails, add the following policy to your generated ECS role:
+```arn:aws:iam::aws:policy/AWSElasticBeanstalkMulticontainerDocker
+```
+
+And re run apply:
+```
+$ terraform apply
+```
+
+### Updating the Travis File
+Update the `.travis.yml` file with your app and bucket values:
+```
+provider: elasticbeanstalk
+region: us-east-2
+app: nf-prod-fib-calculator-t
+env: nf-prod-fib-calculator-t
+bucket_name: elasticbeanstalk-us-east-2-259280065187
+bucket_path: fib-calculator
+```
+
+Also add a valid AWS `access key` and `access secret` to Travis environment variables.
+
+### Updating the App
+After making modifications, push your changes to master and Travis will
+build and push.
 
 ## Local Usage
 In root folder:

@@ -3,8 +3,12 @@
 /client/node_modules
 /server/node_modules
 /worker/node_modules
-/.pnp
-.pnp.js
+
+# terraform
+/terraform/.terraform
+/terraform/terraform.tfstate
+/terraform/terraform.tfstate.backup
+/terraform/terraform.tfvars
 
 # testing
 /client/coverage
@@ -19,7 +23,3 @@
 .env.development.local
 .env.test.local
 .env.production.local
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
