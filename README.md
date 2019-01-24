@@ -24,7 +24,7 @@ The production environment architecture is hosted in AWS:
 Nginx is used to route traffic to proper back end server:
 ![Alt text](docs/fib-calculator-2.png?raw=true "routing")
 
-AWS resources are managed by [terraform](https://www.terraform.io/). See [terraform folder](docs/terraform/README.md) for details.
+AWS resources are managed by [terraform](https://www.terraform.io/). See [terraform folder](/docs/terraform/README.md) for details.
 
 TravisCI builds the containers, pushes them to [DockerHub](https://hub.docker.com/u/nfhbar), and tells EBS to update.
 
@@ -44,7 +44,8 @@ $ terraform apply
 ```
 
 If deploy fails, add the following policy to your generated ECS role:
-```arn:aws:iam::aws:policy/AWSElasticBeanstalkMulticontainerDocker
+```
+arn:aws:iam::aws:policy/AWSElasticBeanstalkMulticontainerDocker
 ```
 
 And re run apply:
